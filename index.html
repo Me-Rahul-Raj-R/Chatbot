@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conversational Chatbot</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-left">
+                <span class="status-indicator">● ONLINE</span>
+                <h1 class="app-title">Conversational Chatbot</h1>
+            </div>
+            <p class="app-subtitle">Simple scripted conversational assistant</p>
+        </header>
+        <main class="chat-window" id="chatWindow">
+            <!-- Welcome message will be inserted by JavaScript on load -->
+        </main>
+        <section class="suggestions" id="suggestions">
+            <p class="suggestion-title">Try asking:</p>
+            <div class="suggestion-buttons">
+                <button class="suggest-btn" data-question="What is Python?">What is Python?</button>
+                <button class="suggest-btn" data-question="What is HTML?">What is HTML?</button>
+                <button class="suggest-btn" data-question="What is CSS?">What is CSS?</button>
+                <button class="suggest-btn" data-question="What is JavaScript?">What is JavaScript?</button>
+                <button class="suggest-btn" data-question="What is a chatbot?">What is a chatbot?</button>
+            </div>
+        </section>
+        <footer class="input-area">
+            <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off" />
+            <button id="sendBtn" class="action-btn">Send</button>
+            <button id="clearBtn" class="action-btn clear-btn">Clear Chat</button>
+        </footer>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
