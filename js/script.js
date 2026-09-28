@@ -28,7 +28,13 @@ function addUserMessage(text) {
 }
 
 function addBotMessage(text) {
-  addMessage('bot', text);
+  // Returns the created message element so we can update it later
+  const msgDiv = document.createElement('div');
+  msgDiv.classList.add('message', 'bot');
+  msgDiv.textContent = text;
+  chatWindow.appendChild(msgDiv);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+  return msgDiv;
 }
 
 // Send user message to backend
@@ -38,9 +44,16 @@ async function sendMessage() {
     // optional feedback – ignore empty input
     return;
   }
+  // Prevent duplicate submissions
+  sendBtn.disabled = true;
+  clearBtn.disabled = true;
+
   addUserMessage(text);
   userInput.value = '';
   userInput.focus();
+
+  // Show typing indicator
+  const typingElem = addBotMessage('Thinking...');
 
   try {
     const response = await fetch('/chat', {
@@ -52,10 +65,15 @@ async function sendMessage() {
       throw new Error('Network response was not ok');
     }
     const data = await response.json();
-    addBotMessage(data.reply);
+    // Replace typing indicator with actual reply
+    typingElem.textContent = data.reply;
   } catch (err) {
     console.error('Fetch error:', err);
-    addBotMessage('Chatbot service is currently unavailable. Please make sure the Python application is running.');
+    typingElem.textContent = 'Chatbot service is currently unavailable. Please make sure the Python application is running.';
+  } finally {
+    // Re‑enable buttons
+    sendBtn.disabled = false;
+    clearBtn.disabled = false;
   }
 }
 

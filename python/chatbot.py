@@ -3,6 +3,8 @@ import socketserver
 import json
 import os
 import re
+import urllib.request
+import urllib.error
 from urllib.parse import urlparse
 
 # ----- Chatbot logic -----
@@ -23,6 +25,11 @@ RESPONSES = [
 
 FALLBACK = "I'm sorry, I don't have a predefined response for that query yet. Try asking me about Python, HTML, CSS, JavaScript, or chatbot concepts."
 
+# Gemini configuration (read from environment, never exposed to frontend)
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+GEMINI_MODEL = 'gemini-pro'
+GEMINI_ENDPOINT = f'https://generativelanguage.googleapis.com/v1/models/{GEMINI_MODEL}:generateContent'
+
 def normalize(text: str) -> str:
     """Lower‑case, trim, remove punctuation (except spaces)."""
     text = text.lower().strip()
@@ -32,13 +39,27 @@ def normalize(text: str) -> str:
     return text
 
 def process_message(message: str) -> str:
-    """Return the chatbot reply for *message* based on keyword matching."""
+    """Return a response for *message*.
+    First try predefined keyword matches; if none, fall back to Gemini (if API key is set).
+    """
     norm = normalize(message)
+    # 1️⃣ Check predefined responses
     for keywords, reply in RESPONSES:
         for kw in keywords:
             if kw in norm:
                 return reply
-    return FALLBACK
+    # 2️⃣ No predefined match – try Gemini if the key is available
+    if GEMINI_API_KEY:
+        try:
+            gemini_reply = get_gemini_reply(message)
+            if gemini_reply:
+                return gemini_reply
+        except Exception as e:
+            # Log server‑side, but do not expose details to the user
+            print('Gemini error:', e)
+    # 3️⃣ Either key missing or Gemini failed – friendly fallback
+    return "I'm not able to answer that question right now because my AI response service is unavailable. You can try asking about Python, HTML, CSS, JavaScript, SQL, programming, or chatbot concepts."
+
 
 # ----- HTTP server -----
 
@@ -65,14 +86,42 @@ class ChatHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(resp_bytes)
         except Exception as e:
-            # internal server error – log and respond with generic message
+            # Internal server error – log and respond with a friendly message
             print('Error handling /chat:', e)
             self.send_response(500)
             self.send_header('Content-Type', 'application/json')
-            err_msg = json.dumps({'reply': 'Chatbot service encountered an error.'}).encode('utf-8')
+            err_msg = json.dumps({'reply': 'Sorry, the chatbot encountered an unexpected error.'}).encode('utf-8')
             self.send_header('Content-Length', str(len(err_msg)))
             self.end_headers()
             self.wfile.write(err_msg)
+
+def get_gemini_reply(user_message: str) -> str:
+    """Send *user_message* to Gemini and return the extracted answer.
+    A minimal system instruction is included to keep responses beginner‑friendly.
+    """
+    system_prompt = (
+        "You are a helpful educational assistant inside a student‑built chatbot. "
+        "Answer the user's question clearly and concisely using beginner‑friendly language. "
+        "For programming topics, give a short explanation and a simple example when appropriate. "
+        "Do not mention the Gemini model or any internal implementation details."
+    )
+    request_body = json.dumps({
+        "contents": [{"role": "user", "parts": [{"text": user_message}]}],
+        "systemInstruction": {"role": "system", "parts": [{"text": system_prompt}]}
+    }).encode('utf-8')
+    url = f"{GEMINI_ENDPOINT}?key={GEMINI_API_KEY}"
+    req = urllib.request.Request(url, data=request_body, method='POST')
+    req.add_header('Content-Type', 'application/json')
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        resp_data = json.loads(resp.read().decode('utf-8'))
+        # The Gemini response format contains candidates[0].content.parts[0].text
+        try:
+            candidate = resp_data['candidates'][0]
+            text = candidate['content']['parts'][0]['text']
+            return text.strip()
+        except (KeyError, IndexError):
+            return None
+
 
 def run_server(port: int = 5000):
     # Change working directory to project root so static files are served correctly
@@ -80,7 +129,7 @@ def run_server(port: int = 5000):
     project_root = os.path.abspath(os.path.join(script_dir, '..'))
     os.chdir(project_root)
     handler = ChatHandler
-    with socketserver.TCPServer(("0.0.0.0", port), handler) as httpd:
+    with socketserver.ThreadingTCPServer(("0.0.0.0", port), handler) as httpd:
         print(f"Chatbot server running at http://localhost:{port}")
         try:
             httpd.serve_forever()
