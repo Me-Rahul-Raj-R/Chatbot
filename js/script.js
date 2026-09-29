@@ -26,13 +26,13 @@ function formatMessageText(text) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  # Format inline code blocks `code`
+  // Format inline code blocks `code`
   escaped = escaped.replace(/`([^`]+)`/g, '<code>$1</code>');
 
-  # Format bold text **text**
+  // Format bold text **text**
   escaped = escaped.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
 
-  # Format line breaks
+  // Format line breaks
   escaped = escaped.replace(/\n/g, '<br/>');
 
   return escaped;
