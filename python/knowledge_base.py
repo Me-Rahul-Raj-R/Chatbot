@@ -63,6 +63,7 @@ CONTRACTIONS = {
     "teach me": "explain",
     "give me python basics": "explain python",
     "python explanation please": "explain python",
+    "python meaning": "what is python",
     "what does python mean": "what is python",
     "what is meant by python": "what is python",
     "give an example of": "example",
@@ -548,10 +549,12 @@ def retrieve_local_answer(message: str, session_context: Optional[dict] = None) 
         if mapped_key in KB_EXACT:
             return KB_EXACT[mapped_key], norm
 
-    # 4. Check substring keys in KB_EXACT
+    # 4. Check word-boundary matched keys in KB_EXACT
     for key, ans in KB_EXACT.items():
-        if len(key) > 3 and (key in norm or norm in key):
-            return ans, "general"
+        if len(key) > 3:
+            pattern = r'\b' + re.escape(key) + r'\b'
+            if re.search(pattern, norm):
+                return ans, key.split()[-1]
 
     # 5. Handle follow-up pronouns ("it", "this", "example", "why is it popular") using session_context
     if session_context and session_context.get("last_topic"):
