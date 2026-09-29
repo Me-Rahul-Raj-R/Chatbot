@@ -274,6 +274,44 @@ CANONICAL_ANSWERS: Dict[str, str] = {
     "python_vs_java": "Python vs Java:\n- **Python**: Dynamic typing, concise readable syntax, rapid prototyping, popular for AI & Data Science.\n- **Java**: Static typing, verbose syntax, compiled to bytecode, popular for enterprise scale and Android.",
 
     "html_vs_css": "HTML vs CSS:\n- **HTML**: Provides the structural content and backbone of a web page.\n- **CSS**: Provides visual presentation, colors, layout, and styling.",
+
+    # --- ADVANCED OOP ---
+    "oop_constructor": "A Constructor is a special method automatically called when an object is instantiated. It is used to initialize the object's state (e.g., `__init__` in Python, or a method with the class name in Java).",
+    "oop_destructor": "A Destructor is a method called when an object is about to be destroyed or garbage collected, used to free resources (e.g., `__del__` in Python).",
+    "oop_binding": "Binding is linking a method call to its implementation. Early Binding (Static) happens at compile-time (e.g., method overloading). Late Binding (Dynamic) happens at runtime (e.g., method overriding).",
+    "oop_cohesion_coupling": "Cohesion vs Coupling:\n- **Cohesion**: How closely related the responsibilities of a single class are. High cohesion is good.\n- **Coupling**: The degree of dependency between different classes. Low coupling is good.",
+
+    # --- ADVANCED PYTHON ---
+    "python_decorator": "A Decorator in Python is a function that takes another function and extends its behavior without explicitly modifying it. It uses the `@decorator_name` syntax.",
+    "python_generator": "A Generator in Python is a function that returns an iterator using the `yield` keyword instead of `return`. It generates values one at a time, saving memory.",
+    "python_iterator": "An Iterator in Python is an object that contains a countable number of values and implements `__iter__()` and `__next__()` methods to traverse them.",
+    "python_init_self": "`__init__` is the constructor method in Python. `self` represents the instance of the class and is used to access variables that belong to the class.",
+    "python_copy": "Shallow Copy vs Deep Copy:\n- **Shallow Copy**: Creates a new object but inserts references into it to the objects found in the original.\n- **Deep Copy**: Creates a new object and recursively adds copies of nested objects present in the original.",
+    "python_pep8": "PEP 8 is the official style guide for Python code, providing conventions on how to write clean, readable, and consistent Python code.",
+
+    # --- ADVANCED JAVA ---
+    "java_final": "The `final` keyword in Java is used to restrict the user: final variables cannot be changed, final methods cannot be overridden, and final classes cannot be inherited.",
+    "java_this_super": "`this` vs `super`:\n- `this`: Refers to the current class instance.\n- `super`: Refers to the immediate parent class instance, used to invoke parent methods or constructors.",
+    "java_multithreading": "Multithreading in Java is a process of executing two or more threads concurrently for maximum utilization of the CPU. Threads are lightweight sub-processes.",
+    "java_hashmap_hashtable": "HashMap vs HashTable in Java:\n- **HashMap**: Non-synchronized, fast, allows one null key and multiple null values.\n- **HashTable**: Synchronized (thread-safe), slower, does not allow any null keys or values.",
+
+    # --- ADVANCED HTML ---
+    "html_svg_canvas": "SVG vs Canvas:\n- **SVG**: Vector-based, scalable without quality loss, DOM-based (event handlers can be attached to shapes).\n- **Canvas**: Raster-based (pixels), faster for rendering many objects like games, drawn via JavaScript.",
+    "html_storage": "Local Storage vs Session Storage (Web Storage):\n- **LocalStorage**: Stores data with no expiration date (persists after browser closes).\n- **SessionStorage**: Stores data for one session (data is lost when the browser tab is closed).",
+    "html_get_post": "GET vs POST in HTML Forms:\n- **GET**: Appends form data to the URL, limited size, less secure, used for retrieving data.\n- **POST**: Sends form data in the HTTP body, unlimited size, more secure, used for submitting sensitive data.",
+    "html_iframe": "An `<iframe>` (Inline Frame) in HTML is used to embed another HTML document within the current web page.",
+
+    # --- ADVANCED CSS ---
+    "css_specificity": "CSS Specificity determines which style rules are applied by the browser. Hierarchy (highest to lowest): Inline styles > IDs > Classes/Pseudo-classes/Attributes > Elements/Pseudo-elements.",
+    "css_units": "CSS Units (rem vs em vs px):\n- **px**: Absolute unit (pixels).\n- **em**: Relative to the font-size of the element's parent.\n- **rem**: Relative to the font-size of the root element (`<html>`).",
+    "css_transitions": "CSS Transitions allow you to change property values smoothly over a given duration, instead of instantly.",
+
+    # --- ADVANCED JS ---
+    "js_null_undefined": "null vs undefined in JavaScript:\n- **undefined**: A variable has been declared but has not yet been assigned a value.\n- **null**: An intentional assignment representing the absence of any object value.",
+    "js_arrow_functions": "Arrow Functions (`=>`) provide a shorter syntax for writing function expressions. Unlike regular functions, they do not have their own `this` binding (they inherit `this` from the parent scope).",
+    "js_strict_mode": "Strict Mode (`'use strict';`) is a feature in JavaScript that enforces stricter parsing and error handling, preventing the use of undeclared variables and reserved words.",
+    "js_spread_rest": "Spread vs Rest operator (`...`) in JS:\n- **Spread**: Expands an iterable (like an array) into individual elements.\n- **Rest**: Condenses multiple elements into a single array (used in function parameters).",
+    "js_event_bubbling": "Event Bubbling vs Capturing:\n- **Bubbling**: Events trigger on the innermost target element and bubble up to the document root.\n- **Capturing**: Events trigger on the document root and trickle down to the target element.",
 }
 
 # ---------- PHRASE ALIAS MAPPING ----------
@@ -358,6 +396,44 @@ ALIAS_RULES: List[Tuple[List[str], str]] = [
     (["java vs javascript", "javascript vs java"], "java_vs_javascript"),
     (["python vs java", "java vs python"], "python_vs_java"),
     (["html vs css", "css vs html"], "html_vs_css"),
+
+    # --- ADVANCED OOP ---
+    (["constructor", "what is constructor"], "oop_constructor"),
+    (["destructor", "what is destructor"], "oop_destructor"),
+    (["static vs dynamic binding", "early vs late binding", "what is binding"], "oop_binding"),
+    (["cohesion vs coupling", "coupling vs cohesion"], "oop_cohesion_coupling"),
+
+    # --- ADVANCED PYTHON ---
+    (["decorator", "python decorator", "what is decorator", "decorators"], "python_decorator"),
+    (["generator", "python generator", "what is generator", "generators"], "python_generator"),
+    (["iterator", "python iterator", "what is iterator", "iterators"], "python_iterator"),
+    (["init", "__init__", "what is self", "init and self"], "python_init_self"),
+    (["shallow copy vs deep copy", "deep copy vs shallow copy", "shallow copy"], "python_copy"),
+    (["pep 8", "what is pep 8", "pep8"], "python_pep8"),
+
+    # --- ADVANCED JAVA ---
+    (["final keyword", "what is final", "java final"], "java_final"),
+    (["this vs super", "this and super", "what is this", "what is super"], "java_this_super"),
+    (["multithreading in java", "what is thread", "thread in java", "multithreading"], "java_multithreading"),
+    (["hashmap vs hashtable", "hashtable vs hashmap"], "java_hashmap_hashtable"),
+
+    # --- ADVANCED HTML ---
+    (["svg vs canvas", "canvas vs svg"], "html_svg_canvas"),
+    (["local storage vs session storage", "web storage", "localstorage"], "html_storage"),
+    (["get vs post", "post vs get", "get and post"], "html_get_post"),
+    (["iframe", "what is iframe"], "html_iframe"),
+
+    # --- ADVANCED CSS ---
+    (["specificity", "css specificity", "what is specificity"], "css_specificity"),
+    (["rem vs em vs px", "em vs rem", "css units"], "css_units"),
+    (["css transitions", "transitions in css", "css animation"], "css_transitions"),
+
+    # --- ADVANCED JS ---
+    (["null vs undefined", "undefined vs null"], "js_null_undefined"),
+    (["arrow function", "arrow functions"], "js_arrow_functions"),
+    (["strict mode", "use strict"], "js_strict_mode"),
+    (["spread vs rest", "spread operator", "rest operator"], "js_spread_rest"),
+    (["event bubbling", "event capturing", "bubbling vs capturing"], "js_event_bubbling"),
 ]
 
 
