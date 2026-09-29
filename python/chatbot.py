@@ -2,19 +2,17 @@ import http.server
 import socketserver
 import json
 import os
-import urllib.request
-import urllib.error
 from urllib.parse import urlparse
 from typing import Dict, List, Any
 
-# Import knowledge base logic
+# Import rule-based knowledge engine
 from python.knowledge_base import (
     normalize_text,
     retrieve_local_answer,
     get_varied_fallback
 )
 
-# In-memory session context storage for follow-up questions
+# In-memory session context storage for context-aware follow-up questions
 SESSION_CONTEXT: Dict[str, Dict[str, Any]] = {}
 
 def get_session_context(session_id: str) -> Dict[str, Any]:
@@ -22,7 +20,7 @@ def get_session_context(session_id: str) -> Dict[str, Any]:
     if session_id not in SESSION_CONTEXT:
         SESSION_CONTEXT[session_id] = {
             "last_topic": None,
-            "history": [] # bounded list of recent (user, bot) turns
+            "history": [] # Bounded recent turns
         }
     return SESSION_CONTEXT[session_id]
 
@@ -41,90 +39,27 @@ def clear_session_context(session_id: str):
         SESSION_CONTEXT[session_id] = {"last_topic": None, "history": []}
 
 
-# ---------- Gemini API Fallback Integration ----------
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
-GEMINI_MODEL = 'gemini-1.5-flash' # modern standard fallback model
-GEMINI_ENDPOINT = f'https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent'
-
-def get_gemini_reply(user_message: str, history: List[Dict[str, str]] = None) -> str:
-    """
-    Send query to Gemini API with strict system instructions when GEMINI_API_KEY is configured.
-    Receives bounded recent conversation history for natural follow-ups.
-    """
-    if not GEMINI_API_KEY:
-        return None
-
-    system_instruction = (
-        "You are an educational assistant built inside a student's Conversational Chatbot project. "
-        "Explain technical concepts (Python, Web Development, Databases, CS Fundamentals) clearly, "
-        "concisely, and using beginner-friendly language. "
-        "Keep simple definitions to 2-4 sentences. For code questions, provide short, safe, working code snippets. "
-        "Never claim to be ChatGPT or mention internal model details or API keys."
-    )
-
-    contents = []
-    # Include up to last 3 context turns
-    if history:
-        for turn in history[-3:]:
-            contents.append({"role": "user", "parts": [{"text": turn["user"]}]})
-            contents.append({"role": "model", "parts": [{"text": turn["bot"]}]})
-    
-    contents.append({"role": "user", "parts": [{"text": user_message}]})
-
-    request_payload = {
-        "contents": contents,
-        "systemInstruction": {
-            "role": "system",
-            "parts": [{"text": system_instruction}]
-        }
-    }
-
-    try:
-        url = f"{GEMINI_ENDPOINT}?key={GEMINI_API_KEY}"
-        data_bytes = json.dumps(request_payload).encode('utf-8')
-        req = urllib.request.Request(url, data=data_bytes, method='POST')
-        req.add_header('Content-Type', 'application/json')
-        
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            res_json = json.loads(resp.read().decode('utf-8'))
-            candidate = res_json.get('candidates', [])[0]
-            parts = candidate.get('content', {}).get('parts', [])
-            if parts and 'text' in parts[0]:
-                return parts[0]['text'].strip()
-    except Exception as e:
-        # Log server-side silently without breaking or exposing secrets to client
-        print("[Server] Gemini API call failed or unavailable:", e)
-    
-    return None
-
-
-# ---------- Process Message Pipeline ----------
+# ---------- Process User Message Pipeline ----------
 def process_user_message(message: str, session_id: str = "default") -> str:
     """
-    Hybrid Answering Architecture Pipeline:
-    1. Check local normalized knowledge base.
-    2. If local answer exists, return it.
-    3. If local answer is missing AND Gemini API key is configured, query Gemini API.
-    4. Otherwise, return a polite, varied fallback response listing available topics.
+    Process incoming message using rule-based normalization and matching.
+    1. Check for empty or whitespace input.
+    2. Check local knowledge base for exact/alias/pattern match.
+    3. Update session context if match found.
+    4. Fall back to polite topic-guided fallback if query is unmapped.
     """
     if not message or not message.strip():
-        return ""
+        return "Please ask a question! I am happy to help you with Python, Java, HTML, CSS, JavaScript, OOP, or SQL."
 
     ctx = get_session_context(session_id)
     
-    # Check local knowledge base first
+    # Check local knowledge base
     local_reply, topic = retrieve_local_answer(message, ctx)
     if local_reply:
         update_session_context(session_id, message, local_reply, topic)
         return local_reply
 
-    # Try Gemini fallback if configured
-    gemini_reply = get_gemini_reply(message, ctx.get("history"))
-    if gemini_reply:
-        update_session_context(session_id, message, gemini_reply, "gemini_ai")
-        return gemini_reply
-
-    # Friendly fallback
+    # Polite fallback
     fallback_reply = get_varied_fallback()
     update_session_context(session_id, message, fallback_reply)
     return fallback_reply
@@ -132,7 +67,7 @@ def process_user_message(message: str, session_id: str = "default") -> str:
 
 # ---------- HTTP Server Handler ----------
 class ChatHandler(http.server.SimpleHTTPRequestHandler):
-    """Serves static frontend files and handles POST /chat requests."""
+    """Serves static frontend files and handles POST /chat and POST /reset endpoints."""
 
     def do_POST(self):
         parsed_path = urlparse(self.path)
@@ -158,7 +93,7 @@ class ChatHandler(http.server.SimpleHTTPRequestHandler):
                 print("[Server Error] Error handling /chat request:", e)
                 self.send_response(500)
                 self.send_header('Content-Type', 'application/json')
-                err_bytes = json.dumps({'reply': 'Sorry, the server encountered an internal error processing your request.'}).encode('utf-8')
+                err_bytes = json.dumps({'reply': 'Sorry, the server encountered an unexpected error processing your request.'}).encode('utf-8')
                 self.send_header('Content-Length', str(len(err_bytes)))
                 self.end_headers()
                 self.wfile.write(err_bytes)
@@ -189,7 +124,7 @@ def run_server(port: int = 5000):
     
     socketserver.ThreadingTCPServer.allow_reuse_address = True
     with socketserver.ThreadingTCPServer(("127.0.0.1", port), ChatHandler) as httpd:
-        print(f"Chatbot server running at http://localhost:{port}")
+        print(f"Conversational Chatbot server running at http://localhost:{port}")
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:
