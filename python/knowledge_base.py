@@ -242,6 +242,7 @@ KB_EXACT: Dict[str, str] = {
 
     # --- Python Object-Oriented Programming (OOP) ---
     "explain oop": "Object-Oriented Programming (OOP) is a paradigm based on objects containing data (attributes) and code (methods). The 4 pillars of OOP are Encapsulation, Abstraction, Inheritance, and Polymorphism.",
+    "what is oop": "Object-Oriented Programming (OOP) is a paradigm based on objects containing data (attributes) and code (methods). The 4 pillars of OOP are Encapsulation, Abstraction, Inheritance, and Polymorphism.",
     "explain constructor": "A constructor is a special method called automatically when an instance of a class is created. In Python, it is `__init__`.",
     "explain init": "`__init__` is Python's constructor method used to initialize an object's instance variables upon creation:\n```python\nclass Person:\n    def __init__(self, name):\n        self.name = name\n```",
     "explain self": "`self` represents the instance of the class currently being operated on, allowing access to instance attributes and methods.",
@@ -351,7 +352,9 @@ KB_EXACT: Dict[str, str] = {
     "what is row": "A row (or record) represents a single data entry item inside a database table.",
     "what is column": "A column (or field) represents a specific attribute or data element maintained across table rows.",
     "what is primary key": "A Primary Key is a column (or set of columns) that uniquely identifies each row in a table. It cannot contain `NULL` values.",
+    "what is a primary key": "A Primary Key is a column (or set of columns) that uniquely identifies each row in a table. It cannot contain `NULL` values.",
     "what is foreign key": "A Foreign Key is a column in one table that references the Primary Key of another table, establishing a referential link between them.",
+    "what is a foreign key": "A Foreign Key is a column in one table that references the Primary Key of another table, establishing a referential link between them.",
     "what is unique key": "A Unique Key constraint ensures all values in a column are distinct, but unlike a Primary Key, it allows one `NULL` value.",
     "what is candidate key": "A Candidate Key is a minimal set of attributes that can uniquely identify a table record. One candidate key is chosen as the Primary Key.",
     "what is composite key": "A Composite Key is a primary key composed of two or more columns combined to uniquely identify a row.",
@@ -411,7 +414,9 @@ KB_EXACT: Dict[str, str] = {
     # --- CS Fundamentals & Operating Systems ---
     "explain operating system": "An Operating System (OS) is core system software that manages hardware resources (CPU, RAM, storage) and provides services for application programs (e.g., Windows, Linux, macOS).",
     "explain process": "A process is an active instance of a running program executing in memory with dedicated resources.",
+    "what is a process": "A process is an active instance of a running program executing in memory with dedicated resources.",
     "explain thread": "A thread is the smallest unit of execution within a process. Multiple threads within a process share memory space.",
+    "what is a thread": "A thread is the smallest unit of execution within a process. Multiple threads within a process share memory space.",
     "process vs thread": "A **Process** is an independent executing program with its own memory address space. A **Thread** is a lightweight execution path inside a process sharing the parent process's memory.",
     "explain multitasking": "Multitasking allows an OS to execute multiple tasks/processes concurrently by switching the CPU rapidly between them.",
     "explain multiprocessing": "Multiprocessing utilizes two or more physical CPU cores simultaneously to process separate tasks.",
@@ -440,6 +445,7 @@ KB_EXACT: Dict[str, str] = {
     "explain switch": "A switch connects multiple devices together within a single local network (LAN) using MAC addresses.",
     "explain modem": "A modem converts digital signals from a computer into analog signals suitable for transmission over cables/fiber.",
     "explain dns": "DNS (Domain Name System) translates human-readable domain names (e.g., `google.com`) into numerical IP addresses (`142.250.190.46`).",
+    "what is dns": "DNS (Domain Name System) translates human-readable domain names (e.g., `google.com`) into numerical IP addresses (`142.250.190.46`).",
     "explain http": "HTTP (Hypertext Transfer Protocol) is the application-level protocol used to transfer web page data across the Web.",
     "explain https": "HTTPS is the secure version of HTTP that encrypts web communication using SSL/TLS.",
     "explain tcp": "TCP (Transmission Control Protocol) is a reliable connection-oriented transport protocol that guarantees ordered, error-checked packet delivery.",
@@ -498,9 +504,9 @@ TOPIC_KEYWORD_MAP = {
     "js": "what is javascript",
     "sql": "what is sql",
     "algorithm": "what is an algorithm",
-    "process": "explain process",
-    "thread": "explain thread",
-    "dns": "explain dns",
+    "process": "what is a process",
+    "thread": "what is a thread",
+    "dns": "what is dns",
     "ip": "explain ip address",
     "git": "explain git",
     "github": "explain github",
@@ -551,7 +557,7 @@ def retrieve_local_answer(message: str, session_context: Optional[dict] = None) 
 
     # 4. Check word-boundary matched keys in KB_EXACT
     for key, ans in KB_EXACT.items():
-        if len(key) > 3:
+        if len(key) > 4:
             pattern = r'\b' + re.escape(key) + r'\b'
             if re.search(pattern, norm):
                 return ans, key.split()[-1]
@@ -570,7 +576,7 @@ def retrieve_local_answer(message: str, session_context: Optional[dict] = None) 
     best_score = 0.0
     for key, ans in KB_EXACT.items():
         score = difflib.SequenceMatcher(None, norm, key).ratio()
-        if score > 0.78 and score > best_score:
+        if score > 0.82 and score > best_score:
             best_score = score
             best_match = ans
 
