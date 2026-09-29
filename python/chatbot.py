@@ -129,7 +129,9 @@ def run_server(port: int = 5000):
     project_root = os.path.abspath(os.path.join(script_dir, '..'))
     os.chdir(project_root)
     handler = ChatHandler
-    with socketserver.ThreadingTCPServer(("0.0.0.0", port), handler) as httpd:
+    # Enable address reuse to avoid 'address already in use' errors on rapid restarts
+    socketserver.ThreadingTCPServer.allow_reuse_address = True
+    with socketserver.ThreadingTCPServer(("127.0.0.1", port), handler) as httpd:
         print(f"Chatbot server running at http://localhost:{port}")
         try:
             httpd.serve_forever()
