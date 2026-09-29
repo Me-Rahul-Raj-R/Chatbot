@@ -30,6 +30,8 @@ TYPO_MAP = {
     "intervew": "interview",
     "porcess": "process",
     "thred": "thread",
+    "oops": "oop",
+    "oops.": "oop",
 }
 
 CONTRACTIONS = {
@@ -66,6 +68,16 @@ CONTRACTIONS = {
     "python meaning": "what is python",
     "what does python mean": "what is python",
     "what is meant by python": "what is python",
+    "pillars of oop": "explain oop",
+    "pillar of oop": "explain oop",
+    "pillars of oops": "explain oop",
+    "pillar of oops": "explain oop",
+    "4 pillars of oop": "explain oop",
+    "four pillars of oop": "explain oop",
+    "4 pillars of oops": "explain oop",
+    "four pillars of oops": "explain oop",
+    "acid property": "explain acid properties",
+    "acid properties": "explain acid properties",
     "give an example of": "example",
     "show an example of": "example",
     "show example": "example",
@@ -241,8 +253,10 @@ KB_EXACT: Dict[str, str] = {
     "explain nested dictionaries": "A nested dictionary contains other dictionaries as values:\n```python\nusers = {'user1': {'name': 'Alice'}, 'user2': {'name': 'Bob'}}\n```",
 
     # --- Python Object-Oriented Programming (OOP) ---
-    "explain oop": "Object-Oriented Programming (OOP) is a paradigm based on objects containing data (attributes) and code (methods). The 4 pillars of OOP are Encapsulation, Abstraction, Inheritance, and Polymorphism.",
-    "what is oop": "Object-Oriented Programming (OOP) is a paradigm based on objects containing data (attributes) and code (methods). The 4 pillars of OOP are Encapsulation, Abstraction, Inheritance, and Polymorphism.",
+    "explain oop": "Object-Oriented Programming (OOP) is a paradigm based on objects containing data (attributes) and code (methods). The **4 Pillars of OOP** are:\n1. **Encapsulation**: Bundling data and methods into a class.\n2. **Abstraction**: Hiding internal implementation details.\n3. **Inheritance**: Creating child classes from parent classes.\n4. **Polymorphism**: Allowing different objects to respond to the same method call.",
+    "what is oop": "Object-Oriented Programming (OOP) is a paradigm based on objects containing data (attributes) and code (methods). The **4 Pillars of OOP** are:\n1. **Encapsulation**: Bundling data and methods into a class.\n2. **Abstraction**: Hiding internal implementation details.\n3. **Inheritance**: Creating child classes from parent classes.\n4. **Polymorphism**: Allowing different objects to respond to the same method call.",
+    "pillars of oop": "The **4 Pillars of OOP** are:\n1. **Encapsulation**: Bundling data and methods into a class.\n2. **Abstraction**: Hiding internal complexity and exposing clean interfaces.\n3. **Inheritance**: Inheriting attributes and methods from parent classes.\n4. **Polymorphism**: Using a common interface for entities of different types.",
+    "pillar of oop": "The **4 Pillars of OOP** are:\n1. **Encapsulation**: Bundling data and methods into a class.\n2. **Abstraction**: Hiding internal complexity and exposing clean interfaces.\n3. **Inheritance**: Inheriting attributes and methods from parent classes.\n4. **Polymorphism**: Using a common interface for entities of different types.",
     "explain constructor": "A constructor is a special method called automatically when an instance of a class is created. In Python, it is `__init__`.",
     "explain init": "`__init__` is Python's constructor method used to initialize an object's instance variables upon creation:\n```python\nclass Person:\n    def __init__(self, name):\n        self.name = name\n```",
     "explain self": "`self` represents the instance of the class currently being operated on, allowing access to instance attributes and methods.",
@@ -343,21 +357,45 @@ KB_EXACT: Dict[str, str] = {
     "what is sessionstorage": "`sessionStorage` saves data for the duration of the current browser tab session (cleared when tab closes).",
     "what is fetch": "The `fetch()` API provides a modern asynchronous JavaScript interface for making network HTTP requests to servers.",
 
-    # --- SQL & Database Concepts ---
+    # --- SQL & Database Concepts (GeeksforGeeks DBMS Coverage) ---
     "what is sql": "SQL (Structured Query Language) is the standard domain-specific language used for managing and querying Relational Database Management Systems (RDBMS).",
-    "what is dbms": "DBMS (Database Management System) is software that enables users to store, manage, retrieve, and manipulate data securely (e.g., MongoDB, MySQL).",
-    "what is rdbms": "RDBMS (Relational Database Management System) is a DBMS based on the relational model where data is stored in structured tables linked by keys (e.g., PostgreSQL, MySQL, SQLite).",
-    "what is database": "A database is an organized collection of structured data stored electronically for rapid search and retrieval.",
+    "what is dbms": "A Database Management System (DBMS) is software that enables users to create, store, organize, retrieve, update, and manage data efficiently in a database while ensuring security and integrity. Examples: MySQL, PostgreSQL, Oracle, SQLite.",
+    "what is rdbms": "An RDBMS (Relational Database Management System) stores data in structured tables composed of rows and columns, enforcing relationships using primary and foreign keys. Examples: PostgreSQL, MySQL, MS SQL Server.",
+    "what is database": "A database is an organized collection of structured data stored electronically for rapid search, retrieval, and management.",
     "what is table": "A database table is a structured collection of related data organized in horizontal rows (records) and vertical columns (fields).",
     "what is row": "A row (or record) represents a single data entry item inside a database table.",
     "what is column": "A column (or field) represents a specific attribute or data element maintained across table rows.",
-    "what is primary key": "A Primary Key is a column (or set of columns) that uniquely identifies each row in a table. It cannot contain `NULL` values.",
-    "what is a primary key": "A Primary Key is a column (or set of columns) that uniquely identifies each row in a table. It cannot contain `NULL` values.",
-    "what is foreign key": "A Foreign Key is a column in one table that references the Primary Key of another table, establishing a referential link between them.",
-    "what is a foreign key": "A Foreign Key is a column in one table that references the Primary Key of another table, establishing a referential link between them.",
+    "what is primary key": "A Primary Key is a column (or set of columns) that uniquely identifies each row in a table. It cannot contain `NULL` values and must contain unique values.",
+    "what is a primary key": "A Primary Key is a column (or set of columns) that uniquely identifies each row in a table. It cannot contain `NULL` values and must contain unique values.",
+    "what is foreign key": "A Foreign Key is a column in one table that references the Primary Key of another table, establishing a referential integrity link between them.",
+    "what is a foreign key": "A Foreign Key is a column in one table that references the Primary Key of another table, establishing a referential integrity link between them.",
     "what is unique key": "A Unique Key constraint ensures all values in a column are distinct, but unlike a Primary Key, it allows one `NULL` value.",
-    "what is candidate key": "A Candidate Key is a minimal set of attributes that can uniquely identify a table record. One candidate key is chosen as the Primary Key.",
-    "what is composite key": "A Composite Key is a primary key composed of two or more columns combined to uniquely identify a row.",
+    "what is super key": "A Super Key is a set of one or more attributes that collectively identify a tuple/row uniquely within a table relation.",
+    "what is candidate key": "A Candidate Key is a minimal super key—a minimal set of attributes that uniquely identifies a row without redundant fields.",
+    "what is composite key": "A Composite Key is a primary key made up of two or more columns combined together to uniquely identify a record.",
+    "explain acid properties": "The **ACID Properties** ensure database transaction reliability:\n- **Atomicity**: All operations in a transaction succeed or all fail (all-or-nothing).\n- **Consistency**: Database transitions from one valid state to another, preserving constraints.\n- **Isolation**: Concurrent transactions execute independently without interfering with each other.\n- **Durability**: Committed changes persist permanently even after system crashes.",
+    "what are acid properties": "The **ACID Properties** ensure database transaction reliability:\n- **Atomicity**: All operations in a transaction succeed or all fail (all-or-nothing).\n- **Consistency**: Database transitions from one valid state to another, preserving constraints.\n- **Isolation**: Concurrent transactions execute independently without interfering with each other.\n- **Durability**: Committed changes persist permanently even after system crashes.",
+    "explain ddl": "DDL (Data Definition Language) commands define and alter database schema structure:\n- `CREATE`: Creates tables/databases.\n- `ALTER`: Modifies table structure.\n- `DROP`: Deletes objects permanently.\n- `TRUNCATE`: Removes all records from a table.",
+    "what is ddl": "DDL (Data Definition Language) commands define and alter database schema structure:\n- `CREATE`: Creates tables/databases.\n- `ALTER`: Modifies table structure.\n- `DROP`: Deletes objects permanently.\n- `TRUNCATE`: Removes all records from a table.",
+    "explain dml": "DML (Data Manipulation Language) commands modify database data:\n- `INSERT`: Adds new records.\n- `UPDATE`: Modifies existing rows.\n- `DELETE`: Removes specified records.",
+    "what is dml": "DML (Data Manipulation Language) commands modify database data:\n- `INSERT`: Adds new records.\n- `UPDATE`: Modifies existing rows.\n- `DELETE`: Removes specified records.",
+    "explain dcl": "DCL (Data Control Language) commands manage permissions and user rights:\n- `GRANT`: Gives user access permissions.\n- `REVOKE`: Withdraws user permissions.",
+    "what is dcl": "DCL (Data Control Language) commands manage permissions and user rights:\n- `GRANT`: Gives user access permissions.\n- `REVOKE`: Withdraws user permissions.",
+    "explain tcl": "TCL (Transaction Control Language) commands manage database transactions:\n- `COMMIT`: Saves transaction changes permanently.\n- `ROLLBACK`: Restores database state before transaction.\n- `SAVEPOINT`: Sets a checkpoint within a transaction.",
+    "what is tcl": "TCL (Transaction Control Language) commands manage database transactions:\n- `COMMIT`: Saves transaction changes permanently.\n- `ROLLBACK`: Restores database state before transaction.\n- `SAVEPOINT`: Sets a checkpoint within a transaction.",
+    "what is er diagram": "An Entity-Relationship (ER) Diagram visually models a database structure using:\n- **Entities** (Rectangles): Real-world objects (e.g., Student, Course).\n- **Attributes** (Ovals): Properties of entities (e.g., Name, ID).\n- **Relationships** (Diamonds): Connections between entities (e.g., Enrolls_In).",
+    "what is a view": "A View in SQL is a virtual table based on the result-set of an SQL statement. It does not store physical data itself but provides a dynamic window over actual tables.",
+    "what is a trigger": "A Trigger is a stored database procedure that automatically executes (fires) when a specified event (`INSERT`, `UPDATE`, `DELETE`) occurs on a table.",
+    "what is a stored procedure": "A Stored Procedure is a prepared batch of SQL statements saved in the database that can be executed repeatedly with input/output parameters.",
+    "what is bcnf": "BCNF (Boyce-Codd Normal Form) is a stricter version of 3NF. A table is in BCNF if for every functional dependency $X \\rightarrow Y$, $X$ is a super key.",
+    "what is 1nf": "1NF (First Normal Form) requires atomic cell values (no arrays/lists inside cells) and unique records.",
+    "what is 2nf": "2NF (Second Normal Form) requires 1NF compliance and no partial functional dependencies (non-key attributes depend on whole primary key).",
+    "what is 3nf": "3NF (Third Normal Form) requires 2NF compliance and no transitive functional dependencies (non-key attributes depend *only* on primary key).",
+    "what is clustered index": "A Clustered Index alters the physical order of data rows in a table to match the index key order. Each table can have only one clustered index.",
+    "what is non clustered index": "A Non-Clustered Index creates a separate structure containing index key values and row pointers to physical table data. A table can have multiple non-clustered indexes.",
+    "clustered index vs non clustered index": "Clustered vs Non-Clustered Index:\n- **Clustered Index**: Determines the physical order of data in the table. Only 1 allowed per table. Faster data retrieval.\n- **Non-Clustered Index**: Stores pointers to actual table data in a separate index structure. Multiple allowed per table.",
+    "what is functional dependency": "A Functional Dependency ($X \\rightarrow Y$) expresses a constraint where attribute set $X$ uniquely determines attribute set $Y$ in a relation.",
+    "what is concurrency control": "Concurrency Control in DBMS ensures simultaneous execution of transactions without data inconsistency or race conditions, using mechanisms like Lock-Based Protocols and Timestamp Ordering.",
     "what is select": "The `SELECT` statement retrieves columns/data from one or more database tables:\n```sql\nSELECT name, age FROM users WHERE age > 18;\n```",
     "what is from": "The `FROM` clause specifies the database table(s) from which to retrieve data.",
     "what is where": "The `WHERE` clause filters table records based on a specified condition.",
@@ -385,7 +423,7 @@ KB_EXACT: Dict[str, str] = {
     "max": "`MAX(column)` returns the largest value in a column.",
 
     # Database Normalization & Concepts
-    "explain normalization": "Database Normalization is the process of organizing table structures to reduce data redundancy and improve data integrity. Main forms:\n- **1NF**: Atomic values, no repeating groups.\n- **2NF**: In 1NF and no partial dependencies.\n- **3NF**: In 2NF and no transitive dependencies.",
+    "explain normalization": "Database Normalization is the process of organizing table structures to reduce data redundancy and improve data integrity. Main forms:\n- **1NF**: Atomic values, no repeating groups.\n- **2NF**: In 1NF and no partial dependencies.\n- **3NF**: In 2NF and no transitive dependencies.\n- **BCNF**: Strict form of 3NF where all determinants are super keys.",
     "explain first normal form": "1NF requires that table cells hold single atomic values and each record is unique.",
     "explain second normal form": "2NF requires 1NF compliance and that non-key attributes depend on the complete primary key.",
     "explain third normal form": "3NF requires 2NF compliance and that non-key attributes depend *only* on the primary key (no transitive dependencies).",
@@ -457,14 +495,14 @@ KB_EXACT: Dict[str, str] = {
     "explain response": "An HTTP response is the server's reply containing Status Code (e.g., 200 OK, 404 Not Found), Headers, and Content Payload.",
     "explain url": "A URL (Uniform Resource Locator) is a web address specifying the location of a resource on the Internet.",
     "explain api": "An API (Application Programming Interface) defines set rules allowing different software applications to communicate with each other.",
-    "explain rest api": "A REST API (Representational State Transfer API) is an architectural style for designing networked web APIs using standard HTTP methods (`GET`, `POST`, `PUT`, `DELETE`) and JSON payloads.",
+    "explain rest api": "An REST API (Representational State Transfer API) is an architectural style for designing networked web APIs using standard HTTP methods (`GET`, `POST`, `PUT`, `DELETE`) and JSON payloads.",
 
     # --- Git & GitHub ---
     "explain git": "Git is a distributed version control system that tracks code changes, allows branch merging, and helps developers collaborate on software projects.",
     "explain github": "GitHub is a cloud-based hosting platform for Git repositories, offering collaboration tools, pull requests, and issue tracking.",
     "explain repository": "A repository (repo) is a storage location containing all project files, commits, and revision history.",
     "explain commit": "A commit is a saved snapshot of your project changes in Git along with a descriptive commit message.",
-    "explain branch": "A branch is an independent line of development in Git, allowing developers to work on new features without affecting main branch code.",
+    "explain branch": "An independent line of development in Git, allowing developers to work on new features without affecting main branch code.",
     "explain merge": "Merging combines changes from one branch into another (e.g., merging a feature branch into `main`).",
     "explain clone": "Cloning creates a local copy of a remote Git repository on your machine.",
     "explain pull": "Fetching and merging changes from a remote repository into your local branch (`git pull`).",
@@ -482,7 +520,7 @@ KB_EXACT: Dict[str, str] = {
     "explain basic statistics": "Statistics involves collecting, analyzing, summarizing, and interpreting numerical data (using metrics like Mean, Median, Mode, and Range).",
     "explain basic logical reasoning": "Logical reasoning applies formal rules of deduction and inference to draw valid conclusions from given premises or conditions.",
 
-    # --- Comparisons (Lines 797-808) ---
+    # --- Comparisons ---
     "python vs java": "Python vs Java:\n- **Python**: Dynamic typing, interpreted, concise readable syntax, excellent for Data Science & AI.\n- **Java**: Static typing, compiled to JVM bytecode, verbose syntax, widely used for enterprise backend systems and Android.",
     "html vs css": "HTML vs CSS:\n- **HTML**: Provides the backbone structure and content elements of a web page.\n- **CSS**: Controls the visual presentation, colors, fonts, layout, and responsive design of HTML elements.",
     "html vs javascript": "HTML vs JavaScript:\n- **HTML**: Defines static page elements and content structure.\n- **JavaScript**: Adds dynamic interactivity, logic, event handling, and data fetching to the web page.",
@@ -522,6 +560,14 @@ TOPIC_KEYWORD_MAP = {
     "stack": "explain stack",
     "queue": "explain queue",
     "database": "what is database",
+    "dbms": "what is dbms",
+    "rdbms": "what is rdbms",
+    "acid": "explain acid properties",
+    "bcnf": "what is bcnf",
+    "ddl": "explain ddl",
+    "dml": "explain dml",
+    "dcl": "explain dcl",
+    "tcl": "explain tcl",
 }
 
 def retrieve_local_answer(message: str, session_context: Optional[dict] = None) -> Optional[Tuple[str, str]]:
@@ -529,7 +575,7 @@ def retrieve_local_answer(message: str, session_context: Optional[dict] = None) 
     Main local KB match pipeline:
     1. Normalize text (lowercase, contractions, typos, punctuation removal).
     2. Direct match in KB_EXACT.
-    3. Topic phrase alias mapping ("explain python", "tell me python", "python?").
+    3. Topic phrase alias mapping ("explain python", "pillars of oop", "pillar of oops").
     4. Follow-up pronoun resolution using session_context.
     5. Fuzzy match for close spellings.
     """
@@ -549,7 +595,7 @@ def retrieve_local_answer(message: str, session_context: Optional[dict] = None) 
             if mapped_key in KB_EXACT:
                 return KB_EXACT[mapped_key], target_topic
 
-    # 3. Check single topic keyword (e.g. "python", "html", "process")
+    # 3. Check single topic keyword (e.g. "python", "html", "process", "acid")
     if norm in TOPIC_KEYWORD_MAP:
         mapped_key = TOPIC_KEYWORD_MAP[norm]
         if mapped_key in KB_EXACT:
@@ -576,7 +622,7 @@ def retrieve_local_answer(message: str, session_context: Optional[dict] = None) 
     best_score = 0.0
     for key, ans in KB_EXACT.items():
         score = difflib.SequenceMatcher(None, norm, key).ratio()
-        if score > 0.82 and score > best_score:
+        if score > 0.75 and score > best_score:
             best_score = score
             best_match = ans
 
@@ -586,13 +632,14 @@ def retrieve_local_answer(message: str, session_context: Optional[dict] = None) 
     # 7. Check if user is asking for interview questions
     if "interview" in norm:
         return (
-            "Here are some common technical interview questions you can practice with me:\n"
-            "1. 'What is OOP and what are its four pillars?'\n"
-            "2. 'What is the difference between primary key and foreign key in SQL?'\n"
-            "3. 'Explain the difference between let, const, and var in JavaScript.'\n"
-            "4. 'What is a JOIN in SQL and what are the different types?'\n"
-            "5. 'What is the difference between a process and a thread?'\n"
-            "Feel free to ask me to answer any of these!",
+            "Here are some common technical interview questions from GeeksforGeeks you can practice:\n"
+            "1. 'What are ACID properties in DBMS?'\n"
+            "2. 'What is the difference between DDL, DML, DCL, and TCL?'\n"
+            "3. 'What is the difference between Primary Key, Foreign Key, and Super Key?'\n"
+            "4. 'What are the 4 Pillars of OOP?'\n"
+            "5. 'What is BCNF and how is it different from 3NF?'\n"
+            "6. 'What is the difference between Clustered and Non-Clustered Index?'\n"
+            "Feel free to ask me to explain any of these!",
             "interview"
         )
 
@@ -604,6 +651,6 @@ def get_varied_fallback() -> str:
     return (
         "I don't have a predefined answer for that specific question yet. "
         "However, I am happy to help you with programming and CS topics! "
-        "You can ask me about **Python**, **HTML**, **CSS**, **JavaScript**, **SQL**, "
-        "**Data Structures**, **Networking**, **Git**, or **Operating Systems**."
+        "You can ask me about **Python**, **HTML**, **CSS**, **JavaScript**, **DBMS / SQL**, "
+        "**ACID Properties**, **OOP Pillars**, **Data Structures**, **Networking**, **Git**, or **Operating Systems**."
     )
