@@ -64,14 +64,31 @@ chatbot/
 
 ---
 
+## Development Journey & Step-by-Step Process Done
+To meet the goal of expanding conversational chatbot knowledge and answering ability without relying on external AI APIs, the following steps were taken:
+1. **Architecture Migration**: Transitioned from a hybrid architecture (local + Gemini API fallback) to a fully deterministic, purely rule-based engine in `knowledge_base.py`. This ensures high reliability, instant responses, and no 503 unavailability issues.
+2. **Knowledge Base Expansion**: Incorporated comprehensive technical interview-prep content for OOP, Java, JavaScript, HTML, CSS, and Python.
+3. **Concept Resolution Process**:
+   - **Step 1: Input Normalization**: Raw user input is sanitized using regex. It converts queries to lowercase, removes punctuation, and collapses whitespace.
+   - **Step 2: Typo Correction**: Matches common technical typos (e.g., "pyhton", "javasript") to their correct forms using a `TYPO_MAP`.
+   - **Step 3: Alias Mapping**: Uses `ALIAS_RULES` to map varied user phrasing (e.g., "pillars of oop", "python meaning") to a canonical concept key.
+   - **Step 4: Answer Retrieval & Fallback**: Exact matches are pulled from `CANONICAL_ANSWERS`. If no exact match is found, fuzzy matching is applied. A deterministic fallback response is provided if no match succeeds.
+4. **Session Tracking**: Built an in-memory `SESSION_CONTEXT` dictionary keyed by `sessionId` in `chatbot.py` to correctly resolve follow-up pronouns (e.g., "why is it popular").
+5. **Testing & Verification**: Created a robust `test_suite.py` with 29 test cases covering concept routing, typo correction, and language distinction, ensuring 100% accuracy.
+
+---
+
 ## How to Run
-1. **Open a terminal** in the project root directory (`Chatbot`).
-2. Start the Python server:
+1. **Prerequisites**: Ensure Python 3.x is installed on your system. No external packages are required!
+2. **Open a terminal** (Command Prompt or PowerShell) in the project root directory (`Chatbot`).
+3. Start the built-in Python HTTP server by running:
    ```bash
-   python python/chatbot.py
+   python -m python.chatbot
    ```
-3. Navigate to **http://localhost:5000** in your browser.
-4. Click suggestion pills or type questions across OOP, Python, Java, HTML, CSS, JavaScript, or SQL!
+4. Once the server starts, you will see a message indicating it is running on port 5000.
+5. Open your preferred web browser and navigate to **http://localhost:5000**.
+6. The Chatbot UI will load. You can start typing questions about OOP, Python, Java, HTML, CSS, or JavaScript, or use the quick suggestion pills provided on the screen!
+7. To reset the conversation and clear session context, use the **Clear Chat** button in the UI.
 
 ---
 
